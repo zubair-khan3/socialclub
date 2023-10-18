@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class='cal'>
+    <div class="container">
+        <div class="container">
+            <div class="row">
+                <div class="col-8">
+                    <h5 style="padding-top: 6px;">All Venues:</h5>
+                </div>
+                <div class="col-4">
+                    <form class="d-flex" role="search" method="POST" action="{% url 'search_venue' %}">
+                        {% csrf_token %}
+                        <input name="search" class="form-control me-2" type="search" placeholder="Search Venue" aria-label="Search">
+                        <button class="btn btn-dark" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <hr>
+        {% if venues %}
+            {% for venue in venues %}
+                <div class="card" style="margin: 10px;">
+                    <div class="card-header">
+                        {{venue.venue_name}}
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-title">Venue Address: {{venue.venue_address}}</h5>
+                        <p >Date: {{events.event_date}}</p>
+                        <ul>
+                            <li>Phone: {{venue.venue_phone}}</li>
+                            <li>Website: {{venue.venue_website}}</li>
+                            <li>Emali: {{venue.venue_email}}</li>
+                            <li>Attendees:</li>
+                            {% for user in events.attendees.all  %}
+                            {{ user}},
+                            {% endfor %}
+                        </ul>
+                        
+                        <a href="{% url 'update_venue' user.id %}" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <strong>No Data Found</strong>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}
+
+

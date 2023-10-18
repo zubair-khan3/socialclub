@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="cal">
+    <div class="container">
+        <h6>Enter Venue Details:</h6>
+        <hr>
+        {% if user.is_authenticated %}
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button class="btn btn-secondary" type="submit">Add</button>
+        </form>
+        {% else %}
+        <strong>You need to login</strong>
+        {% endif%}
+    </div>
+</div>
+
+
+{% endblock content %}
