@@ -102,5 +102,13 @@ def search_event(request):
 
 
 def update_venue(request,pk):
-    user_id = pk
-    return render(request,'events/update_venue.html',{'user_id':user_id})
+    user_data = Venue.objects.get(id=pk)
+    print(user_data)
+    if request.user.is_authenticated:
+        
+            form = VenueForm(request.POST or None ,instance=user_data)
+            if form.is_valid():
+                form.save()
+                messages.success(request,"Data Updated")
+                return redirect('index')
+    return render(request,'events/update_venue.html',{'form':form})

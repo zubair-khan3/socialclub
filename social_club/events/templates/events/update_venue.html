@@ -4,9 +4,16 @@
 
 <div class='cal'>
     <div class="container">
-        {{user_id}}
+        <h6>Update Venue:</h6>
+        <hr>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type="submit" class="btn btn-light">Update</button>
+        </form>
+       
     </div>
-<div>
+</div>
 
 
 
