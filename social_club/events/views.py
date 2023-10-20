@@ -3,7 +3,7 @@ import calendar
 from calendar import HTMLCalendar
 from datetime import datetime
 from .models import Events, Venue
-from .forms import VenueForm
+from .forms import VenueForm, EventForm
 from django.contrib import messages
 
 from django.core.paginator import Paginator
@@ -46,9 +46,24 @@ def add_venue(request):
                 form_save.created_by = request.user
                 form_save.save()
                 messages.success(request,"Data submitted successfully")
-                return redirect('events/add_venue')
+                return redirect('index')
     
     return render(request,'events/add_venue.html',{'form':form})
+
+
+def add_event(request):
+    form = EventForm
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            form = EventForm(request.POST)
+            if form.is_valid():
+                form_save = form.save(commit=False)
+                form_save.created_by = request.user
+                form_save.save()
+                messages.success(request,"Event Added Successfully..")
+                return redirect("index")
+    return render(request,'events/add_event.html',{'form':form})
+
 
 
 def all_venues(request):
@@ -112,3 +127,5 @@ def update_venue(request,pk):
                 messages.success(request,"Data Updated")
                 return redirect('index')
     return render(request,'events/update_venue.html',{'form':form})
+
+
