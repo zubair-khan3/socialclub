@@ -18,7 +18,17 @@ urlpatterns = [
     path('search_venue', views.search_venue, name="search_venue"),
     path('search_event', views.search_event, name="search_event"),
     #path('search_result/<search>', views.search_result,name="search_result"),
-    path('update_venue/<int:pk>', views.update_venue, name="update_venue")
+    path('update_venue/<int:pk>', views.update_venue, name="update_venue"),
+    path('update_event/<int:pk>',views.update_event,name='update_event'),
+
+    path('delete_venue/<int:pk>',views.delete_venue,name='delete_venue'),
+    path('confirm_delete_venue/<int:pk>',views.confirm_delete_venue,name='confirm_delete_venue'),
+
+    path('delete_event/<int:pk>', views.delete_event,name='delete_event'),
+    path('confirm_delete_event/<int:pk>', views.confirm_delete_event,name='confirm_delete_event'),
+    
+    path('venue_csv',views.venue_csv,name="venue_csv"),
+    path('event_csv',views.event_csv,name="event_csv")
     
 ]
 

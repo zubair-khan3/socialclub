@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="cal">
+    <div class='container'>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button class="btn btn-outline-primary" type="submit">Update</button>
+        </form>
+        
+    </div>
+</div>
+{% endblock content %}
+
+

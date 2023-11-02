@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class='cal'>
+    <div class="container">
+        <h6>Login Page</h6>
+        <hr>
+    </div>
+    <div class='container'>
+
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="username" class="form-label">UserName:</label>
+                <input type="username" class="form-control" id="username" name='username' placeholder="Username">
+                
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password:</label>
+                <input name='password' type="password" class="form-control" id="password" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+
+
+
+    </div>
+</div>
+
+{% endblock content %}
+

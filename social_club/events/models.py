@@ -26,7 +26,7 @@ class Events(models.Model):
     venue      = models.ForeignKey(Venue, blank=True, null=True, on_delete=models.CASCADE)
     manager    = models.CharField( max_length=50,blank=True, null=True)
     desc       = models.TextField(blank=True)
-    attendees = models.ManyToManyField(User, blank=True)
+    attendees = models.ManyToManyField(User, blank=True, related_name='club_members')
 
     def __str__(self):
         return self.event_name + ', ' + self.created_by

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+<div class='cal' style="text-align: center;">
+<b>Confirm Delete:</b> 
+    
+    <div class='container'>
+        <br>
+        
+    <a href="{% url 'confirm_delete_venue' data_id.id  %}" class="btn btn-outline-danger">Yes</a>&ensp;&ensp;
+    <a href="{% url 'all_venues'  %}" class="btn btn-outline-primary">No</a>
+    </div>
+</div>
+{% endblock content %}

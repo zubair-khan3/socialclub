@@ -30,15 +30,18 @@ class VenueForm(ModelForm):
 
 
 class EventForm(ModelForm):
-    event_date = forms.DateField(widget=forms.TextInput(attrs={'min': today, 'value': today, 'type': 'date','class':'form-control'}), required=True)
+    #event_date = forms.DateField(widget=forms.TextInput(attrs={'min': today, 'value': today, 'type': 'date','class':'form-control'}), required=True)
     class Meta:
         model = Events
         fields = ['event_name','event_date','venue','desc', 'attendees']
         widgets ={
             'event_name': forms.TextInput(attrs={'class':'form-control','placeholder':'Event Name'}),
-            #'event_date': forms.DateInput(attrs={'class':'form-control','placeholder':'Event Date'})
-            'venue': forms.TextInput(attrs={'class':'form-control','placeholder':'Venue'}),
+            'event_date': forms.DateInput(attrs={'class':'form-control','placeholder':'Event Date'}),
+            'venue': forms.Select(attrs={'class':'form-control','placeholder':'Venue'}),
             'desc':forms.Textarea(attrs={'class':'form-control','placeholder':'Description'}),
             'attendees':forms.SelectMultiple(attrs={'class':'form-control','placeholder':'Attendees'})
 
+        }
+        labels={
+            'event_date':'YYYY-MM-DD'
         }

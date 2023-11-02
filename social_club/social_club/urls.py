@@ -19,7 +19,11 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('events.urls'))
+    path('',include('events.urls')),
+    path('registration/', include("registration.urls")),
+    path('registration/', include("django.contrib.auth.urls")), #it automatically includes some built in django urls, 
+                                                                #login, sign up, password reset, password reset confirmation.
+    
 ]
 
 admin.site.site_header = "SocialClub"
