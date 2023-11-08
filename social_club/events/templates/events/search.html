@@ -2,27 +2,36 @@
 
 
 {% block content %}
+{% if user.is_authenticated %}
 <div class="cal">
-<div class="container">
-    <h6>You Searched for: {{searched}}</h6>
-    <hr>
-    
-    {%  if venue_search %}
-        <strong>In Venue:</strong> <br>
-        {% for venue in venue_search %}
-            {{venue.venue_name}} <br>
-        {% endfor %}
-    
-    {% endif %}
-<!-- ---------------------------------------------------------------------- -->
+    <div class="container">
+        <h6>You Searched for: {{searched}}</h6>
+        <hr>
+        {%  if venue_search %}
+            <strong>In Venue:</strong> <br>
+            {% for venue in venue_search %}
+                {{venue.venue_name}} <br>
+            {% endfor %}
+        {% endif %}
+        <!-- ---------------------------------------------------------------------- -->
 
-    {%  if event_search %}
-        <strong>In Event:</strong><br>
-        {% for events in event_search %}
-            {{events.event_name}} <br>
-        {% endfor %}
-    
-    {% endif %}
+        {%  if event_search %}
+            <strong>In Event:</strong><br>
+            {% for events in event_search %}
+                {{events.event_name}} <br>
+            {% endfor %}
+        
+        {% endif %}
+    </div>
 </div>
-</div>
+{% else %}
+    <div class="cal" style="padding: 5%;">
+        <div class='container text-center'>
+            <h6 style="text-align: center;">You need to login to view</h6>
+            <a href="{% url 'index' %}" class="btn btn-success">Home</a>
+            <a  href="{% url 'user_login' %}" class="btn btn-primary">Login</a>
+            
+        </div>
+    </div>
+{% endif %}
 {% endblock content %}

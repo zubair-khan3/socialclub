@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class='cal'>
+    <div class="shadow">
+        <div class="container">
+            <h6>Sign Up:</h6>
+            <hr>
+        </div>
+        <div class='container'>
+        
+            <form method="POST" action="">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+    
+</div>
+
+{% endblock content %}

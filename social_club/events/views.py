@@ -66,6 +66,7 @@ def add_event(request):
             if form.is_valid():
                 form_save = form.save(commit=False)
                 form_save.created_by = request.user
+                form_save.manager = request.user
                 form_save.save()
                 messages.success(request,"Event Added Successfully..")
                 return redirect("index")
@@ -136,6 +137,8 @@ def update_venue(request,pk):
         
             form = VenueForm(request.POST or None ,instance=user_data)
             if form.is_valid():
+                #form_save = form.save(commit=False)
+
                 form.save()
                 messages.success(request,"Data Updated")
                 return redirect('index')
@@ -149,75 +152,108 @@ def update_event(request,pk):
        if form.is_valid():
            form.save()
            messages.success(request,'Data Updated')
-           return redirect('index')
+           
+           return redirect('all_events')
+        
     return render(request, 'events/update_event.html',{'form': form})
 
 
 def delete_event(request,pk):
-    data_id = Events.objects.get(id=pk)
-    print(data_id.id)
-    return render(request,'events/delete_event.html',{'data_id':data_id})
+    if request.user.is_authenticated:
+        data_id = Events.objects.get(id=pk)
+        if request.user.username ==  data_id.manager:
+            return render(request,'events/delete_event.html',{'data_id':data_id})
+    
+    messages.success(request,'you are not authorized')
+    return redirect('all_events')
+
+
 
 def confirm_delete_event(request,pk):
     if request.user.is_authenticated:
         event_data = Events.objects.get(id=pk)
-        event_data.delete()
-        messages.success(request,"Event data deleted.!")
-        return redirect('all_events')
-    
+        if request.user.username ==  event_data.manager:
+            event_data.delete()
+            messages.success(request,"Event data deleted.!")
+            return redirect('all_events')
+    messages.success(request,'you are not authorized')
+    return redirect('all_events')
 
 
 
 def delete_venue(request,pk):
-    data_id = Venue.objects.get(id=pk)
-    print(data_id.id)
-    return render(request,'events/delete_venue.html',{'data_id':data_id})
+    if request.user.is_authenticated:
+        data_id = Venue.objects.get(id=pk)
+        if request.user.username == data_id.created_by:
+            print(data_id.id)
+            return render(request,'events/delete_venue.html',{'data_id':data_id})
+    
+    messages.success(request,'you are not authorized')
+    return redirect('all_venues')
+
+
 
 def confirm_delete_venue(request,pk):
     if request.user.is_authenticated:
         event_data = Venue.objects.get(id=pk)
         event_data.delete()
         messages.success(request,"Venue data deleted.!")
-        return redirect('all_events')
+        return redirect('all_venues')
     
 
 
 def venue_csv(request):
-    response = HttpResponse(content_type = 'text/plain')
-    response['content-disposition'] = 'attachment; filename=venue.csv'
+    if request.user.is_authenticated:
+        response = HttpResponse(content_type = 'text/plain')
+        response['content-disposition'] = 'attachment; filename=venue.csv'
 
-    writer = csv.writer(response)
+        writer = csv.writer(response)
 
-    venues = Venue.objects.all()
-    writer.writerow(["Venue Name", "Venue Address", "Phone", "Website","email"])
+        venues = Venue.objects.all()
+        writer.writerow(["Venue Name", "Venue Address", "Phone", "Website","email"])
 
 
-    for data in venues:
-        writer.writerow([data.venue_name,data.venue_address,data.venue_phone,data.venue_website, data.venue_email])
+        for data in venues:
+            writer.writerow([data.venue_name,data.venue_address,data.venue_phone,data.venue_website, data.venue_email])
 
-    return response
+        return response
+    else:
+        messages.success(request,'you need to login..')
+        return redirect('user_login')
+
+    
 
 
 def event_csv(request):
-    response = HttpResponse(content_type = 'text/plain')
-    response['content-disposition'] = 'attachment; filename=event.csv'
+    if request.user.is_authenticated:
+        response = HttpResponse(content_type = 'text/plain')
+        response['content-disposition'] = 'attachment; filename=event.csv'
 
-    writer = csv.writer(response)
+        writer = csv.writer(response)
 
-    events = Events.objects.all()
+        events = Events.objects.all()
 
-    writer.writerow(["Event Name", "Event date", "Event Venue", "Event manager","Description","Attendees"])
+        writer.writerow(["Event Name", "Event date", "Event Venue", "Event manager","Description","Attendees"])
 
-    
-    #e = Events.objects.get(pk=3)
-    #print(" attendees ",e.attendees.all())
-  
-                            
-    for data  in events:
-        print('id', data.id)
-        d = data.attendees.all()
-        for i in d:
-            print(i)
-        writer.writerow([data.event_name, data.event_date, data.venue,data.manager, data.desc, data.attendees])
         
-    return response
+        #e = Events.objects.get(pk=3)
+        #print(" attendees ",e.attendees.all())
+    
+                                
+        for data  in events:
+            d = data.attendees.all()
+            for i in d:
+                print(i)
+            writer.writerow([data.event_name, data.event_date, data.venue,data.manager, data.desc, data.attendees])
+            
+        return response
+    else:
+        messages.success(request,'you need to login..')
+        return redirect('user_login')
+
+
+def user_profile(request,name):
+    user_data = User.objects.get(username=name)
+    
+    return render(request,'events/user_profile.html', {'user_data':user_data})
+

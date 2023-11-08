@@ -3,14 +3,26 @@
 
 
 {% block content %}
-<div class='cal' style="text-align: center;">
-<b>Confirm Delete:</b> 
-    
-    <div class='container'>
-        <br>
+{% if user.is_authenticated %}
+    <div class='cal' style="text-align: center;">
+    <b>Confirm Delete:</b> 
         
-    <a href="{% url 'confirm_delete_event' data_id.id  %}" class="btn btn-outline-danger">Yes</a>&ensp;&ensp;
-    <a href="{% url 'all_events'  %}" class="btn btn-outline-primary">No</a>
+        <div class='container'>
+            <br>
+            
+        <a href="{% url 'confirm_delete_event' data_id.id  %}" class="btn btn-outline-danger">Yes</a>&ensp;&ensp;
+        <a href="{% url 'all_events'  %}" class="btn btn-outline-primary">No</a>
+        </div>
     </div>
-</div>
+
+{% else %}
+    <div class="cal" style="padding: 5%;">
+        <div class='container text-center'>
+            <h6 style="text-align: center;">You need to login to view</h6>
+            <a href="{% url 'index' %}" class="btn btn-success">Home</a>
+            <a  href="{% url 'user_login' %}" class="btn btn-primary">Login</a>
+            
+        </div>
+    </div>
+{% endif %}
 {% endblock content %}

@@ -28,7 +28,8 @@ urlpatterns = [
     path('confirm_delete_event/<int:pk>', views.confirm_delete_event,name='confirm_delete_event'),
     
     path('venue_csv',views.venue_csv,name="venue_csv"),
-    path('event_csv',views.event_csv,name="event_csv")
+    path('event_csv',views.event_csv,name="event_csv"),
     
+    path('user_profile/<str:name>', views.user_profile, name='user_profile')
 ]
 

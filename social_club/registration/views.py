@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from  django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-
+from django.contrib.auth.forms import UserCreationForm
+from .forms import ClubUserForm
 
 
 # Create your views here.
@@ -24,3 +25,21 @@ def user_logout(request):
     logout(request)
     messages.success(request,'logged out.!')
     return redirect('index')
+
+
+def user_signup(request):
+
+    if request.method == 'POST':
+        form = ClubUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            #after authenticate we need to sign in automatically 
+            user = authenticate(username=username, password=password)
+            login(request,user)
+            messages.success(request,"sign up sucessfull")
+            return redirect('index')
+    else:
+        form = ClubUserForm()
+    return render(request, 'registration/user_signup.html',{'form':form})
