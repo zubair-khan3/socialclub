@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <div class='cal'>
+        <div class='container'>
+        
+        <h6>You searched for:{{searched}}</h6>
+        <hr>
+        {% if venue_search %}
+            {% for venue in venue_search %}
+
+                <div class="card" style="margin: 10px;">
+                    <div class="card-header">
+                        {{venue.venue_name}}
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-title">Venue Address: {{venue.venue_address}}</h5>
+                        
+                        <ul>
+                            <li>Phone: {{venue.venue_phone}}</li>
+                            <li>Website: {{venue.venue_website}}</li>
+                            <li>Emali: {{venue.venue_email}}</li>
+                            
+                        </ul>
+
+
+                        <!--{% if venue.venue_image %}
+                        <img src="{{venue.venue_image.url}}" alt="venue img" class="img-fluid" height="200px" width="200px">
+                        {% endif %}
+                        {{venue.id}} -->
+
+                        
+                        
+                        {% if images %}
+                            <div class="scroll-container">
+                                {% for i in images %}
+                                    {% if i.venue_pointer.id == venue.id%}
+                                    <a href="{{i.venue_images.url}}">
+                                    <img src="{{i.venue_images.url}}" alt="" width="300px" height="200px">
+                                    </a>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <strong>No image</strong>
+                        {% endif %}
+                              
+                        
+                        <hr>
+                        {% if user.username == venue.created_by %}
+                        <a href="{% url 'update_venue' venue.id %}" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="{% url 'delete_venue' venue.id %}" class="btn btn-danger btn-sm">Delete</a>
+                        {% else %}
+                            <strong> Only owner can edit or delete. </strong>
+                        {% endif %}
+                    </div>
+                </div>
+                <br>
+            {% endfor %}
+            {% else %}
+                <strong>No Data Found.</strong>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}

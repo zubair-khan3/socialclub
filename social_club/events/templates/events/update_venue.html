@@ -6,9 +6,11 @@
         <div class="container">
             <h6>Update Venue:</h6>
             <hr>
-            <form action="" method="POST">
+            <form action="" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{form.as_p}}
+                {{image.as_p}}
+                <!--<input type="file" id="img" name="img"><br><br>-->
                 <button type="submit" class="btn btn-light">Update</button>
             </form>
         

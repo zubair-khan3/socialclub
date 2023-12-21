@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <div class='cal'>
+        <h6>You searched for:{{searched}}</h6>
+        <hr>
+        {% if event_search %}
+            {% for event in event_search %}
+
+                <div class="card">
+                    <div class="card-header">
+                        {{event.event_name}}
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-title">Venue: {{event.venue}}</h5>
+                                    <p >Date: {{event.event_date}}</p>
+                                    
+                                    <ul>
+                                        <li>Date remain: {{event.till_date}}</li>
+                                        <li>Manager: {{event.manager}}</li>
+                                        <li>Website: {{event.venue.venue_website}}</li>
+                                        <li>Description: {{event.desc}}</li>
+                                        <li>Attendees:</li>
+                                        {% for user in event.attendees.all  %}
+                                        {{ user}},
+                                        {% endfor %}
+                                    </ul>
+                        
+                    </div>
+                    </div>
+                <br>
+                {% endfor %}
+            {% else %}
+                <strong>No Data Found.</strong>
+            {% endif %}
+    </div>
+{% endblock content %}

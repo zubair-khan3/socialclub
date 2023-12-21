@@ -12,6 +12,8 @@
             {% for venue in venue_search %}
                 {{venue.venue_name}} <br>
             {% endfor %}
+        {% else %}
+            <strong>No Result. </strong>
         {% endif %}
         <!-- ---------------------------------------------------------------------- -->
 
@@ -20,7 +22,8 @@
             {% for events in event_search %}
                 {{events.event_name}} <br>
             {% endfor %}
-        
+        {% else %}
+            <strong>No Result. </strong>
         {% endif %}
     </div>
 </div>

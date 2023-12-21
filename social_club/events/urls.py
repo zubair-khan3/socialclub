@@ -30,6 +30,10 @@ urlpatterns = [
     path('venue_csv',views.venue_csv,name="venue_csv"),
     path('event_csv',views.event_csv,name="event_csv"),
     
-    path('user_profile/<str:name>', views.user_profile, name='user_profile')
+    path('user_profile/<str:name>', views.user_profile, name='user_profile'),
+    path('update_user/<str:name>', views.update_user, name="update_user"),
+
+    path('user_events/<str:name>', views.user_events, name='user_events'),
+    path('user_venues/<str:name>', views.user_venues, name='user_venues'),
 ]
 

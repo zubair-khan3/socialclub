@@ -1,33 +1,68 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
     <div class=cal>
         <div class='container'>
             <div>
-                <h6>User Profile</h6>
+                <h6>User Profile:</h6>
                 <hr>
             </div>
             <div class=row>
                 <div class='col-3'>
+                    <div class="card" style="width: 18rem;">
+                        {% if user_detail.user_picture %}
+                            <img src="{{ user_detail.user_picture.url }}" class="card-img-top" alt="your img">
+                        {% else %}
+                            <img src="{% static 'registration/images/default_profile_picture.png' %}" class="card-img-top" alt="your img" width="100px" length="100px">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{user_data.username | capfirst }}</h5>
+                            <p class="card-text"><strong>Name:</strong>{{user_data.first_name}} {{user_data.last_name}}</p>
+                            <p class="card-text"><strong>Email:</strong>{{user_data.email}}</p>
+                            <!-- <a href="#" class="btn btn-outline-primary btn-sm">Basic Info</a> -->
+                            
+                        </div>
+                        
+                    </div>
                 </div>
-                <div class='col-9'>
+                
+                <div class='col-1'>
+                </div>
+                
+                <div class='col-8'>
                     <div class="card">
                         <div class="card-header">
                             User Detail:
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title">{{user_data.username | capfirst }} </h5>
-                            <p class="card-text"><strong>Name:</strong>{{user_data.first_name}} {{user_data.last_name}}</p>
-                            <p class="card-text"><strong>Email:</strong>{{user_data.email}}</p>
+                            <p class="card-text"><strong>Gender: </strong>{{user_detail.gender}}</p>
+                            <p class="card-text"><strong>Number: </strong>{{user_detail.user_number}}</p>
+                            <p class="card-text"><strong>City: </strong>{{user_detail.user_city}} </p>
+                            <p class="card-text"><strong>State: </strong>{{user_detail.user_state}} </p>
+                            <p class="card-text"><strong>Country: </strong>{{user_detail.user_country}}</p>
                             
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                            
+                            <a href="{% url 'update_user' user.username %}" class="btn btn-outline-primary btn-sm">Update Profile</a>
+                            <a href="{% url 'change_password' %}" class="btn btn-outline-primary btn-sm">change password</a>
                         </div>
                     </div>
-                    
-                    
-                    
-                    
+                    <hr>
+                    <div class="card">
+                        <div class="card-header">
+                            Events and Venues created by you:
+                        </div>
+                        <div class="card-body">
+                            
+                            <a href="{% url 'user_events' user.username %}" class="btn btn-outline-primary btn-sm">Events</a>
+                            <a href="{% url 'user_venues' user.username %}" class="btn btn-outline-primary btn-sm">Venue</a>
+                            
+                        </div>
+                    </div>
+
+
                 </div>
+                
             </div>
             
         </div>

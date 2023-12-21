@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class=cal>
+        <div class='container'>
+            <div>
+                <h6>Your Venues:</h6>
+                <hr>
+            </div>
+            <div class=row>
+                <div class='col-12'>
+                    {% if user_data %}
+                        {% for data in user_data %}
+                            <div class="card">
+                                <div class="card-header">
+                                    Venues
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text"><strong>Venue Name:</strong>{{data.venue_name}}</p>
+                                    <ul class = "list-unstyled">
+                                        <li><strong>Venue Manager:</strong>{{data.created_by}}</li>
+                                        <li><strong>Venue Add:</strong>{{data.venue_address}}</li>
+                                        <li><strong>Venue Phone:</strong>{{data.venue_phone}}</li>
+                                        <li><strong>Venue Website:</strong>{{data.venue_website}}</li>
+                                        <li><strong>Venue Email:</strong>{{data.venue_email}}</li>
+
+                                    </ul>
+                                    
+                                    {% if images %}
+                                        <div class="scroll-container">
+                                            {% for i in images %}
+                                                {% if i.venue_pointer.id == data.id%}
+                                                <a href="{{i.venue_images.url}}">
+                                                <img src="{{i.venue_images.url}}" alt="" width="300px" >
+                                                </a>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        <strong>No image</strong>
+                                    {% endif %}
+                                    <hr>
+                                    {% if user.username == data.created_by %}
+                                        <a href="{% url 'update_venue' data.id %}" class="btn btn-primary btn-sm">Edit</a>
+                                        <a href="{% url 'delete_venue' data.id %}" class="btn btn-danger btn-sm">Delete</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        
+                        <strong>You have not created any venue.</strong> <P></P>
+                        <a href="{% url 'add_venue' %}"><button type="button" class="btn btn-secondary">Add venue</button></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

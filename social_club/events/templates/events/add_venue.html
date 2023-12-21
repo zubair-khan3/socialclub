@@ -7,9 +7,10 @@
         <h6>Enter Venue Details:</h6>
         <hr>
         {% if user.is_authenticated %}
-        <form action="" method="POST">
+        <form action="" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            {{form.as_p}}
+            {{form.as_p}} <!-- Form for venue details -->
+            {{image_form.as_p}} <!--Form for uploading images -->
             <button class="btn btn-secondary" type="submit">Add</button>
         </form>
         {% else %}

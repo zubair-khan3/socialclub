@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class=cal>
+        <div class='container'>
+            <div>
+                <h6>Update User Detail:</h6>
+                <hr>
+            </div>
+            <div class=row>
+        
+                <div class='col-12'>
+                    <form action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }} 
+                        
+                        <button type="submit" class="btn btn-success">Update</button>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+{% endblock content %}

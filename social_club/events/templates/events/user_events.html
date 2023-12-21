@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class=cal>
+        <div class='container'>
+            <div>
+                <h6>Your Events:</h6>
+                <hr>
+            </div>
+            <div class=row>
+                <div class='col-12'>
+                    {% if user_data %}
+                        {% for data in user_data %}
+                            <div class="card">
+                                <div class="card-header">
+                                    Events
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">{{data.event_name}}</p>
+                                    <ul>
+                                        <li><strong>Event Manager:</strong>{{data.manager}}</li>
+                                        <li><strong>Event Date:</strong> {{data.event_date}}</li>
+                                        <li> <strong>Event Venue:</strong> {{data.venue}}</li>
+                                        <li><strong>Description:</strong> {{data.desc}}</li>
+                                        <li><strong>Event Attendees:</strong> 
+                                            
+                                        {% for u in data.attendees.all %}</li>
+                                        <ul class="list-unstyled">
+                                            <li>{{u}},</li>
+                                        </ul>
+                                        {% endfor %} 
+                                    </ul>
+                                    {% if user.username == data.created_by %}
+                                    <a href="{% url 'update_event' data.id %}" class="btn btn-primary btn-sm">Edit</a>
+                                    <a href="{% url 'delete_event' data.id %}" class="btn btn-danger btn-sm">Delete</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                        {% else %}
+                        <strong>You have not created any event.</strong> <P></P>
+                        <a href="{% url 'add_event' %}"><button type="button" class="btn btn-secondary">Add Event</button></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

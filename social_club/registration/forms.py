@@ -1,5 +1,5 @@
 from typing import Any
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm , PasswordChangeForm
 from django.contrib.auth.models import User
 from django import forms
 
@@ -37,3 +37,11 @@ class ClubUserForm(UserCreationForm):
 
         self.fields['password2'].widget.attrs['class']='form-control'
         self.fields['password2'].widget.attrs['placeholder']='Confirm Password'
+
+
+class MyPasswordChangeForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["old_password"].widget = forms.PasswordInput(attrs={"class": "form-control"})
+        self.fields["new_password1"].widget = forms.PasswordInput(attrs={"class": "form-control"})
+        self.fields["new_password2"].widget = forms.PasswordInput(attrs={"class": "form-control"})

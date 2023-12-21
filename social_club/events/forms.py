@@ -1,7 +1,9 @@
 from django.forms import ModelForm
-from .models import Venue, Events
+from .models import Venue, Events , UserDetails , VenueImages
 from django import forms
 from datetime import date
+
+from multiupload.fields import MultiFileField
 
 today = date.today()
 
@@ -19,6 +21,7 @@ class VenueForm(ModelForm):
                    'venue_phone' : forms.TextInput(attrs={'class':'form-control','placeholder':'Phone'}),
                    'venue_website' : forms.URLInput(attrs={'class':'form-control','placeholder':'Website'}),
                    'venue_email' : forms.EmailInput(attrs={'class':'form-control','placeholder':'Email'}),
+                 
                    }
         labels = {
                 'venue_name':'',
@@ -27,6 +30,47 @@ class VenueForm(ModelForm):
                 'venue_website': '',
                 'venue_email':'',
         }
+
+
+# class VenueImageForm(ModelForm):
+#     image = MultiFileField(min_num=1, max_num=10)
+#     class Meta:
+#         model = VenueImages
+#         fields = ['venue_images']
+
+
+#================================================================================
+
+
+class MultipleFileInput(forms.ClearableFileInput):
+    allow_multiple_selected = True
+
+class MultipleFileField(forms.FileField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("widget", MultipleFileInput())
+        super().__init__(*args, **kwargs)
+
+    def clean(self, data, initial=None):
+        single_file_clean = super().clean
+        if isinstance(data, (list, tuple)):
+            result = [single_file_clean(d, initial) for d in data]
+        else:
+            result = single_file_clean(data, initial)
+        return result
+
+class VenueImageForm(forms.Form):
+    files = MultipleFileField()
+
+
+
+#=================================================================================
+
+
+
+
+
+
+
 
 
 class EventForm(ModelForm):
@@ -45,3 +89,22 @@ class EventForm(ModelForm):
         labels={
             'event_date':'YYYY-MM-DD'
         }
+
+
+class UserDetailsForm(ModelForm):
+
+    class Meta:
+        model = UserDetails
+        fields= ['gender','user_city', 'user_state','user_country','user_number','user_picture']
+
+    
+        widgets ={
+            'gender': forms.Select(attrs={'class':'form-control','placeholder':'Gender'}),
+            'user_city': forms.TextInput(attrs={'class':'form-control','placeholder':'City'}),
+            'user_state': forms.TextInput(attrs={'class':'form-control','placeholder':'State'}),
+            'user_country': forms.TextInput(attrs={'class':'form-control','placeholder':'Country'}),
+            'user_number':forms.TextInput(attrs={'class':'form-control','placeholder':'Number'})
+
+        }
+
+
