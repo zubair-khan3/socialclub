@@ -25,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-7tasut0*xumq-j%11b-)c8_e^uv8a@i@si!52t7!8w3@mm28vq'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'www.mysite.com']
 
 
 # Application definition
@@ -141,5 +141,3 @@ MEDIA_ROOT = BASE_DIR /'media'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-#username : admin
-#pass	 : Admin@123
